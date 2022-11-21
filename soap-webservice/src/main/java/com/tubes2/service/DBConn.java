@@ -14,9 +14,7 @@ public class DBConn {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             this.conn = DriverManager.getConnection(url, username, password);
-            System.out.println("Connected to MySQL at " + endpoint);
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
             e.printStackTrace();
         }
     }

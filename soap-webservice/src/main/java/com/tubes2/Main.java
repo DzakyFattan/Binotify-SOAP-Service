@@ -7,6 +7,8 @@ public class Main {
         try {
             Endpoint.publish("http://0.0.0.0:2434/subscription", new SubscriptionImpl());
             System.out.println("Server started at " + "http://0.0.0.0:2434/subscription");
+            Endpoint.publish("http://0.0.0.0:2434/apikey", new APIKeyImpl());
+            System.out.println("Server started at http://0.0.0.0:2434/apikey");
         } catch (Exception e) {
             e.printStackTrace();
         }
