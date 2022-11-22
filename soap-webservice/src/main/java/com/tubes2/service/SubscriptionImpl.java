@@ -103,7 +103,7 @@ public class SubscriptionImpl implements Subscription {
         String auth = headers.getFirst("Authorization");
         String stat;
         try {
-            if (auth == null || !(auth.equals(getAPIKey(Integer.parseInt(subscriber_id_str))) || auth.equals(EnvironmentVariable.RESTAPIKey))) {
+            if (auth == null || !(auth.equals(EnvironmentVariable.RESTAPIKey))) {
                 logger("FAILED getSub " + creator_id_str + " " + subscriber_id_str + " " + status + " " + auth);
                 return new MsgWrapper(401, "Unauthorized");
             }
@@ -130,10 +130,17 @@ public class SubscriptionImpl implements Subscription {
             }
             Statement statement = db.createStatement();
             ResultSet res = statement.executeQuery(stat);
-            MsgWrapper ret = new MsgWrapper(200, "Operation Succeed");
-            for (int i = 0; res.next(); i++) {
-                String oneline = i + "," + res.getString("creator_id") + "," + res.getString("subscriber_id") + "," + res.getString("status");
+            MsgWrapper ret = null;
+            if (res.next()) {
+                ret = new MsgWrapper(200, "Operation Succeed");
+                String oneline = "0," + res.getString("creator_id") + "," + res.getString("subscriber_id") + "," + res.getString("status");
                 ret.addContent(oneline);
+                for (int i = 1; res.next(); i++) {
+                    oneline = i + "," + res.getString("creator_id") + "," + res.getString("subscriber_id") + "," + res.getString("status");
+                    ret.addContent(oneline);
+                }
+            } else {
+                ret = new MsgWrapper(404, "Not Found");
             }
             logger("SUCCESS getSub " + creator_id_str  + " " + subscriber_id_str + " " + status + " " + auth);
             return ret;
