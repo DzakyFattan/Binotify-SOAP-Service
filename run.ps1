@@ -1,5 +1,5 @@
-cd soap-webservice
+Set-Location soap-webservice
 mvn clean compile assembly:single
-cd ..
+Set-Location ..
 docker compose down -v
 docker compose up --build

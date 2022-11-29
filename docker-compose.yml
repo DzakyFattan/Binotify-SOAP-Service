@@ -15,7 +15,7 @@ services:
     ports:
       - "3306:3306"
     networks:
-      - "tubes2-soap-network"
+      - "tubes2-network"
   alpine-jdk11:
     build:
       context: ./soap-webservice
@@ -24,11 +24,12 @@ services:
     ports:
       - "2434:2434"
     networks:
-      - tubes2-soap-network
+      - tubes2-network
     depends_on:
       - "tubes2-soap-db"
 volumes:
   soap-db-vol:
 networks:
-  tubes2-soap-network:
+  tubes2-network:
+    name: tubes2-network
     driver: bridge
