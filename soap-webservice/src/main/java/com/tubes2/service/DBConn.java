@@ -21,4 +21,12 @@ public class DBConn {
     public Connection getConnection() {
         return this.conn;
     }
+
+    public void closeConnection() {
+        try {
+            this.conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

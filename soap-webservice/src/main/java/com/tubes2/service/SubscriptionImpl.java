@@ -24,6 +24,7 @@ public class SubscriptionImpl implements Subscription {
             Connection conn = new DBConn().getConnection();
             String sql = "SELECT api_key FROM apikey WHERE uid = " + uid;
             ResultSet rs = conn.createStatement().executeQuery(sql);
+            conn.close();
             if (rs.next()) {
                 return rs.getString("api_key");
             } else {
@@ -45,6 +46,7 @@ public class SubscriptionImpl implements Subscription {
             Statement statement = db.createStatement();
             String stat = "INSERT INTO logging (ip, endpoint, description, requested_at) VALUES (" + stringsql(ip) + ", " + stringsql(endpoint) + ", " + stringsql(description) + ", " + stringsql(timestamp.toString()) + ")";
             statement.executeUpdate(stat);
+            db.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,6 +67,7 @@ public class SubscriptionImpl implements Subscription {
             Statement statement = db.createStatement();
             String stat = "INSERT INTO subscription (creator_id, subscriber_id) VALUES (" + creator_id + ", " + subscriber_id + ")";
             int rowaf = statement.executeUpdate(stat);
+            db.close();
             logger("SUCCESS subscribe " + creator_id_str  + " " + subscriber_id_str + " " + auth);
             return new MsgWrapper(200, "Operation Succeed, " + rowaf + " row(s) affected");
         } catch (Exception e) {
@@ -88,6 +91,7 @@ public class SubscriptionImpl implements Subscription {
             Statement statement = db.createStatement();
             String stat = "UPDATE subscription SET status = " + stringsql(status) + " WHERE creator_id = " + creator_id + " AND subscriber_id = " + subscriber_id;
             int rowaf = statement.executeUpdate(stat);
+            db.close();
             logger("SUCCESS updateSub " + creator_id_str  + " " + subscriber_id_str + " " + status + " " + auth);
             return new MsgWrapper(200, "Operation Succeed, " + rowaf + " row(s) affected");
         } catch (Exception e) {
@@ -142,6 +146,7 @@ public class SubscriptionImpl implements Subscription {
             } else {
                 ret = new MsgWrapper(404, "Not Found");
             }
+            db.close();
             logger("SUCCESS getSub " + creator_id_str  + " " + subscriber_id_str + " " + status + " " + auth);
             return ret;
         } catch (Exception e) {

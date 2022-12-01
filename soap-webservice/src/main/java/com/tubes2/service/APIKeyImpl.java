@@ -46,6 +46,7 @@ public class APIKeyImpl implements APIKey {
             Statement statement = db.createStatement();
             String stat = "INSERT INTO logging (ip, endpoint, description, requested_at) VALUES (" + stringsql(ip) + ", " + stringsql(endpoint) + ", " + stringsql(description) + ", " + stringsql(timestamp.toString()) + ")";
             statement.executeUpdate(stat);
+            db.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -66,6 +67,7 @@ public class APIKeyImpl implements APIKey {
             Connection conn = new DBConn().getConnection();
             String sql = "INSERT INTO apikey (uid, api_key) VALUES (" + uid + ", " + stringsql(api_key) + ")";
             conn.createStatement().executeUpdate(sql);
+            conn.close();
             logger("SUCCESS addAPIKey " + uid_str + " " + auth);
             return new MsgWrapper(200, "Success, (" + uid + ", " + stringsql(api_key) + ") added");
         } catch (Exception e) {
@@ -88,6 +90,7 @@ public class APIKeyImpl implements APIKey {
             Connection conn = new DBConn().getConnection();
             String sql = "SELECT api_key FROM apikey WHERE uid = " + uid;
             ResultSet api_key_rs = conn.createStatement().executeQuery(sql);
+            conn.close();
             if (api_key_rs.next()) {
                 String api_key = api_key_rs.getString("api_key");
                 MsgWrapper msg = new MsgWrapper(200, "Success");
