@@ -9,6 +9,8 @@ public class Main {
             System.out.println("Server started at " + "http://0.0.0.0:2434/subscription");
             Endpoint.publish("http://0.0.0.0:2434/apikey", new APIKeyImpl());
             System.out.println("Server started at http://0.0.0.0:2434/apikey");
+            Endpoint.publish("http://0.0.0.0:2434/callback", new CallbackImpl());
+            System.out.println("Server started at http://0.0.0.0:2434/callback");
         } catch (Exception e) {
             e.printStackTrace();
         }
