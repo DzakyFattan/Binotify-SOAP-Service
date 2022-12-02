@@ -48,10 +48,10 @@ public class CallbackImpl implements Callback {
             OutputStream os = con.getOutputStream();
             os.write(input, 0, input.length);
             if (con.getResponseCode() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : " + con.getResponseCode());
+                throw new RuntimeException("Failed : HTTP error code : " + con.getResponseCode() + " " + con.getResponseMessage() + " with payload " + payload);
             }
             con.disconnect();
-            return new MsgWrapper(200,"OK, sending subscription callback to " + callback_url);
+            return new MsgWrapper(200,"OK, sending subscription callback to " + callback_url + " with payload " + payload);
         } catch (Exception e) {
             e.printStackTrace();
             return new MsgWrapper(500,e.getMessage());
