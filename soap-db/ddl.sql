@@ -19,3 +19,5 @@ create table apikey (
 	api_key char(255) not null,
 	primary key (uid)
 );
+
+INSERT INTO `apikey` VALUES (1,'0d9818e4b19680c8c1459b968add1ed5cfa2337368170b2ea8bd73e0036beab8'),(2,'97953e153f0ff93a85c66f6cf71c1d7460a9bb8ea4d2cc94e0e931aaf2ed8ecd');
