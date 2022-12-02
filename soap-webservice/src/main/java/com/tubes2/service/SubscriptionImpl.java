@@ -59,7 +59,7 @@ public class SubscriptionImpl implements Subscription {
         try {
             int creator_id = Integer.parseInt(creator_id_str);
             int subscriber_id = Integer.parseInt(subscriber_id_str);
-            if (auth == null || !(auth.equals(getAPIKey(subscriber_id)) || auth.equals(EnvironmentVariable.RESTAPIKey))) {
+            if (auth == null || !(auth.equals(EnvironmentVariable.BinAppKey) || auth.equals(EnvironmentVariable.RESTAPIKey))) {
                 logger("FAILED subscribe " + creator_id_str + " " + subscriber_id_str + " " + auth);
                 return new MsgWrapper(401, "Unauthorized");
             }
